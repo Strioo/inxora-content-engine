@@ -10,9 +10,11 @@ node_modules/
 npm-debug.log*
 
 # Output & Build
+# Output & Build & Cache
 dist/
 build/
 .turbo/
+data/
 
 # OS / Editor
 .DS_Store
