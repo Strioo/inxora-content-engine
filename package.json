@@ -6,6 +6,7 @@
   "main": "src/cli.ts",
   "scripts": {
     "generate": "tsx src/cli.ts",
+    "test:ai": "tsx src/test-ai-client.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

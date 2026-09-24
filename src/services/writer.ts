@@ -1,6 +1,8 @@
 import { ResearchPlan } from "./researcher.js";
 import { buildSystemPrompt } from "../prompts/anti-slop.js";
 import { INXORA_SERVICES } from "../config.js";
+import { getAIConfig } from "./ai-client.js";
+import { runOrchestraPipeline, PolishedArticle } from "./orchestra.js";
 
 export interface GeneratedArticle {
   title: string;
@@ -48,6 +50,7 @@ function generateTechnicalDraft(plan: ResearchPlan): GeneratedArticle {
 
   const excerpt = `Analisis mendalam mengenai tantangan arsitektural, optimasi performa, dan mitigasi bottleneck produksi pada ${topic.toLowerCase()}.`;
   // Ensure title is not overly repetitive
+  // Ensure title length is safe for database constraints
   if (title.length > 95) {
     title = title.slice(0, 92) + "...";
   }
@@ -241,11 +244,15 @@ async function verifyDistributedLock(key: string, ttl: number): Promise&lt;boole
   <li><strong>Monitoring Berbasis SLA p99:</strong> Metrik rata-rata (mean/average) sering kali menyembunyikan 1% pengguna yang mengalami timeout fatal. Pastikan sistem alarm terpicu saat latensi persentil p99 melampaui ambang batas aman.</li>
   <li><strong>Graceful Degradation:</strong> Rancang antarmuka pengguna dan API downstream agar dapat menyajikan *stale cached data* atau fallback response ketika layanan hulu mengalami lonjakan beban sesaat.</li>
   <li><strong>Automated Chaos Testing:</strong> Uji skenario kegagalan koneksi database dan partisi jaringan secara berkala di lingkungan staging untuk memverifikasi bahwa *circuit breaker* bereaksi sesuai ekspektasi.</li>
+  <li><strong>Monitoring Berbasis SLA p99:</strong> Metrik rata-rata sering kali menyembunyikan 1% pengguna yang mengalami timeout fatal. Pastikan sistem alarm terpicu saat latensi persentil p99 melampaui ambang batas aman.</li>
+  <li><strong>Graceful Degradation:</strong> Rancang antarmuka pengguna dan API downstream agar dapat menyajikan stale data atau fallback response ketika layanan hulu mengalami lonjakan beban sesaat.</li>
+  <li><strong>Automated Chaos Testing:</strong> Uji skenario kegagalan koneksi database dan partisi jaringan secara berkala di lingkungan staging untuk memverifikasi bahwa circuit breaker bereaksi sesuai ekspektasi.</li>
 </ul>
 
 <p>
   Di Inxora Studio, implementasi seperti ini merupakan standar baku pada layanan <a href="${relevantService.path}"><strong>${relevantService.name}</strong></a> untuk memastikan platform klien memiliki ketahanan tinggi (*high availability*) dan efisiensi biaya infrastruktur cloud.
   Di Inxora Studio, implementasi standar seperti ini merupakan fondasi utama pada layanan <a href="${relevantService.path}"><strong>${relevantService.name}</strong></a> untuk memastikan platform enterprise klien memiliki skalabilitas tanpa kompromi (*fault-tolerant architecture*) serta efisiensi biaya infrastruktur cloud jangka panjang.
+  Di Inxora Studio, implementasi standar seperti ini merupakan fondasi utama pada layanan <a href="${relevantService.path}"><strong>${relevantService.name}</strong></a> untuk memastikan platform enterprise klien memiliki skalabilitas tanpa kompromi serta efisiensi biaya infrastruktur cloud jangka panjang.
 </p>
   `.trim();
 
@@ -268,11 +275,16 @@ async function verifyDistributedLock(key: string, ttl: number): Promise&lt;boole
  * Main writer interface.
  * Dual-Mode Content Generator:
  * Uses Gemini API if GEMINI_API_KEY is configured, otherwise uses structured technical engine.
+ * Universal Dual-Mode Content Generator:
+ * Executes 3-Stage AI Orchestra Pipeline if AI_API_KEY is configured.
+ * Automatically falls back to Diverse Procedural Engine if key is missing or endpoint is offline.
  */
 export async function generateArticle(plan: ResearchPlan): Promise<GeneratedArticle> {
   const apiKey = process.env.GEMINI_API_KEY?.trim();
+  const config = getAIConfig();
 
   if (apiKey) {
+  if (config.apiKey) {
     try {
       console.log(`[Writer] Querying Gemini AI for topic: "${plan.topic}"...`);
       console.log(`[Writer] Querying Gemini AI with Archetype: "${plan.archetype.name}" & Industry: "${plan.industry.name}"...`);
@@ -352,10 +364,16 @@ Kembalikan HANYA JSON valid dengan struktur:
       }
       console.warn(`[Writer] Gemini returned non-OK or empty. Falling back to technical procedural engine.`);
       console.warn(`[Writer] Gemini returned non-OK or empty. Falling back to diverse procedural technical engine.`);
+      console.log(`[Writer] Initializing AI Multi-Agent Orchestra with endpoint: ${config.endpoint}...`);
+      const polished: PolishedArticle = await runOrchestraPipeline(plan);
+      return polished;
     } catch (err: unknown) {
       console.warn(`[Writer] Gemini inference failed, using technical fallback:`, err);
       console.warn(`[Writer] Gemini inference failed, using diverse technical fallback:`, err);
+      console.warn(`[Writer] AI Orchestra pipeline encountered an issue. Falling back to diverse procedural engine:`, err);
     }
+  } else {
+    console.log(`[Writer] No AI_API_KEY detected in .env. Running diverse procedural technical engine.`);
   }
 
   // Procedural high-grade fallback

@@ -5,6 +5,7 @@ import { resolveCoverImage } from "./services/image-generator.js";
 import { generateArticle } from "./services/writer.js";
 import { publishArticle, IngestPayload } from "./services/publisher.js";
 import { recordArticleInHistory } from "./services/history-guard.js";
+import { getAIConfig } from "./services/ai-client.js";
 import { INXORA_AUTHOR } from "./config.js";
 
 function parseArgs() {
@@ -50,9 +51,19 @@ function parseArgs() {
 }
 
 async function main() {
+  const aiConfig = getAIConfig();
+
   console.log("=========================================================");
   console.log("🚀 Inxora Autonomous AI Content Engine (Anti-Slop Edition)");
   console.log("🚀 Inxora Autonomous AI Content Engine (Diversity Edition)");
+  console.log("🚀 Inxora Autonomous AI Content Engine (Orchestra Edition)");
+  console.log("=========================================================");
+  if (aiConfig.apiKey) {
+    console.log(`📡 AI Endpoint      : ${aiConfig.endpoint}`);
+    console.log(`🎭 Orchestra Models : Architect [${aiConfig.architectModel}] -> Writer [${aiConfig.writerModel}] -> Reviewer [${aiConfig.reviewerModel}]`);
+  } else {
+    console.log(`⚙️ Mode             : Diverse Procedural Technical Engine (No AI key configured)`);
+  }
   console.log("=========================================================");
 
   const options = parseArgs();
@@ -86,6 +97,7 @@ async function main() {
 
   console.log(`\n[Stage 3/4] Drafting high-gain technical content (Anti-Slop rules active)...`);
   console.log(`\n[Stage 3/4] Drafting high-gain technical content (Anti-Slop & Diversity active)...`);
+  console.log(`\n[Stage 3/4] Drafting high-gain technical content via Orchestra...`);
   const article = await generateArticle(research);
   console.log(`✓ Article Title     : ${article.title}`);
   console.log(`✓ Article Excerpt   : ${article.excerpt.slice(0, 100)}...`);
