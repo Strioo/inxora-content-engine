@@ -126,13 +126,16 @@ export async function executeResilientQuery&lt;T&gt;(
 </p>
   `.trim();
 
+  const safeExcerpt = excerpt.length > 250 ? excerpt.slice(0, 247) + "..." : excerpt;
+  const safeMetaDesc = safeExcerpt.length > 160 ? safeExcerpt.slice(0, 157) + "..." : safeExcerpt;
+
   return {
     title,
-    excerpt,
+    excerpt: safeExcerpt,
     content,
     tags: Array.from(new Set([...recommendedKeywords, "Engineering", "Architecture"])).slice(0, 5),
     metaTitle: title.length > 55 ? title.slice(0, 67) : `${title} · Inxora`,
-    metaDesc: excerpt,
+    metaDesc: safeMetaDesc,
     category,
   };
 }
@@ -199,7 +202,10 @@ Kembalikan HANYA JSON valid dengan struktur:
               parsed.title?.length > 55
                 ? parsed.title.slice(0, 67)
                 : `${parsed.title} · Inxora`,
-            metaDesc: parsed.excerpt,
+            metaDesc:
+              parsed.excerpt?.length > 160
+                ? parsed.excerpt.slice(0, 157) + "..."
+                : parsed.excerpt,
             category: plan.category,
           };
         }

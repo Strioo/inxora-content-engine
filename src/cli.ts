@@ -16,10 +16,17 @@ function parseArgs() {
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
-    if (arg === "--topic" && args[i + 1]) {
+
+    if (arg.startsWith("--topic=")) {
+      options.topic = arg.slice(8);
+    } else if (arg === "--topic" && args[i + 1]) {
       options.topic = args[++i];
+    } else if (arg.startsWith("--category=")) {
+      options.category = arg.slice(11);
     } else if (arg === "--category" && args[i + 1]) {
       options.category = args[++i];
+    } else if (arg.startsWith("--author=")) {
+      options.author = arg.slice(9);
     } else if (arg === "--author" && args[i + 1]) {
       options.author = args[++i];
     } else if (arg === "--publish") {
