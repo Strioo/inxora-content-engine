@@ -1,9 +1,9 @@
 export type ArchetypeId =
-  | "war-story"
-  | "deep-dive"
-  | "benchmark-battle"
-  | "production-blueprint"
-  | "adr";
+  | "practical-guide"
+  | "strategic-comparison"
+  | "problem-solver-checklist"
+  | "business-innovation-insight"
+  | "cost-and-roi-blueprint";
 
 export interface ArchetypeDefinition {
   id: ArchetypeId;
@@ -13,200 +13,194 @@ export interface ArchetypeDefinition {
   headingBlueprint: {
     h2Sections: string[];
     calloutTheme: string;
-    codeFocus: string;
+    focusElement: string;
   };
   promptInstruction: string;
 }
 
 export type IndustryId =
-  | "fintech"
-  | "ecommerce"
-  | "saas"
-  | "iot-logistics"
-  | "healthtech";
+  | "sme-retail"
+  | "b2b-saas"
+  | "corporate-services"
+  | "health-wellness"
+  | "education-edutech";
 
 export interface IndustryContext {
   id: IndustryId;
   name: string;
   workloadDescription: string;
-  typicalBottlenecks: string[];
-  complianceOrEdgeCase: string;
-  codeContextHint: string;
+  commonChallenges: string[];
+  keyBusinessGoals: string;
+  conversionContext: string;
 }
 
 export const ARCHETYPES: Record<ArchetypeId, ArchetypeDefinition> = {
-  "war-story": {
-    id: "war-story",
-    name: "The Post-Mortem & Incident Investigation",
-    tagline: "Studi Kasus Insiden Produksi Nyata dan Rekayasa Pemulihannya",
+  "practical-guide": {
+    id: "practical-guide",
+    name: "The Definitive Practical Guide",
+    tagline: "Panduan Langkah demi Langkah Menyelesaikan Kebutuhan Digital Bisnis",
     narrativeAngle:
-      "Investigasi kronologis kegagalan sistem p99 latency spike, connection exhaustion, atau deadlock pada jam sibuk, diikuti root cause analysis dan mitigasi permanen.",
+      "Membimbing pembaca dari pemahaman masalah mendasar hingga eksekusi solusi siap pakai, dilengkapi tahapan terstruktur, perbandingan opsi, dan checklist praktis.",
     headingBlueprint: {
       h2Sections: [
-        "1. Kronologi Insiden: Anomali Metrik pada Beban Puncak",
-        "2. Investigasi Root Cause: Mengapa Failover Biasa Tidak Cukup",
-        "3. Solusi Rekayasa dan Implementasi Proteksi",
-        "4. Post-Mortem dan Aturan Pencegahan Permanen",
+        "Dampak Nyata terhadap Efisiensi dan Pertumbuhan Bisnis",
+        "Konsep Kunci & Komponen yang Wajib Dipahami",
+        "Langkah demi Langkah Implementasi yang Teruji",
+        "Kesalahan Umum yang Harus Dihindari & Tips Optimasi",
+        "Roadmap Eksekusi & Langkah Awal Implementasi 30 Hari",
       ],
-      calloutTheme: "Analisis Kegagalan (Post-Mortem Insight)",
-      codeFocus: "Circuit breaker, fallback strategy, query timeout protection",
+      calloutTheme: "Tips Praktis Inxora Studio",
+      focusElement: "Langkah terstruktur, tabel komparasi opsi, dan checklist aksi",
     },
     promptInstruction:
-      "Tulis dengan gaya investigasi teknis insiden produksi (War Story / Post-Mortem). Awali langsung dengan kronologi kejadian anomali metrik secara tajam tanpa basa-basi. Sajikan tabel timeline kejadian dan kode mitigasi defensif.",
+      "Tulis dengan gaya Panduan Lengkap (The Definitive Guide). Buka langsung dengan urgensi masalah bisnis nyata tanpa klise pembuka. Gunakan bahasa yang membumi bagi founders dan manajer produk, sertakan tabel komparasi yang objektif, dan berikan langkah aksi konkret. Hindari kata-kata megah berlebihan (peacock words), trikolon klise, dan kesimpulan generik. Gunakan ritme kalimat dinamis dan analogi nyata yang mudah dipahami.",
   },
-  "deep-dive": {
-    id: "deep-dive",
-    name: "Architectural Deep-Dive & Internals",
-    tagline: "Membedah Mekanisme Internal dan Jeroan Sistem di Lapisan Bawah",
+
+  "strategic-comparison": {
+    id: "strategic-comparison",
+    name: "Strategic Evaluation & Comparison Matrix",
+    tagline: "Matriks Evaluasi Kritis & Perbandingan Opsi Solusi Digital",
     narrativeAngle:
-      "Eksplorasi mendalam mengenai cara kerja low-level atau arsitektur inti dari teknologi terkait, membongkar asumsi umum yang salah, dan mengungkap trade-offs.",
+      "Membandingkan dua atau lebih pendekatan secara objektif dari sudut pandang biaya, kemudahan skalabilitas, waktu rilis, dan kemudahan pemeliharaan jangka panjang.",
     headingBlueprint: {
       h2Sections: [
-        "1. Dekonstruksi Mekanisme Internal dan Asumsi Keliru",
-        "2. Visualisasi Aliran Data dan Trade-Off Arsitektural",
-        "3. Implementasi Pola Tingkat Lanjut di Produksi",
-        "4. Checklist Evaluasi Kapasitas dan Batas Skalabilitas",
+        "Dilema Pemilihan Solusi bagi Pembuat Keputusan",
+        "Matriks Komparasi Parameter Utama & Trade-Off",
+        "Kapan Harus Memilih Opsi A vs Opsi B",
+        "Studi Kelayakan Biaya & Total Cost of Ownership (TCO)",
+        "Panduan Keputusan & Skenario Penerapan Berbasis Kebutuhan",
       ],
-      calloutTheme: "Prinsip Arsitektur (Architectural Invariant)",
-      codeFocus: "Custom pooling, atomic locking, low-level configuration",
+      calloutTheme: "Evaluasi Trade-Off",
+      focusElement: "Tabel perbandingan terperinci dan panduan kriteria pemilihan",
     },
     promptInstruction:
-      "Tulis dengan gaya Deep-Dive Arsitektural tingkat lanjut. Bedah jeroan internal teknologi secara presisi, bandingkan mekanisme write path vs read path, dan sajikan implementasi kode yang efisien memori.",
+      "Tulis dengan gaya Evaluasi & Komparasi Strategis. Sajikan tabel perbandingan menyeluruh antara pendekatan konvensional vs modern, analisislah keuntungan dan batas kemampuan masing-masing secara objektif. Hindari perbandingan simetris 50/50 yang dibuat-buat jika satu pendekatan secara teknis memang lebih superior untuk kebutuhan modern. Berikan rekomendasi berbasis use-case bisnis nyata tanpa bahasa berlebihan.",
   },
-  "benchmark-battle": {
-    id: "benchmark-battle",
-    name: "Pragmatic Benchmark & Tech Evaluation",
-    tagline: "Komparasi Head-to-Head Objektif: Kapan Harus Pindah?",
+
+  "problem-solver-checklist": {
+    id: "problem-solver-checklist",
+    name: "Problem Solver & Diagnostic Checklist",
+    tagline: "Diagnostik Masalah Kritis & Checklist Perbaikan Langsung",
     narrativeAngle:
-      "Evaluasi komparatif yang pragmatis dan empiris antara dua pendekatan teknis bersaing, menimbang performa throughput, latensi p99, dan beban kognitif tim.",
+      "Mendiagnosis akar penyebab dari gejala masalah bisnis/teknis (seperti website lambat, drop-off checkout tinggi, atau aplikasi sering crash) dan memberikan checklist audit yang dapat segera dieksekusi.",
     headingBlueprint: {
       h2Sections: [
-        "1. Premis Komparasi: Hipotesis vs Kenyataan di Lapangan",
-        "2. Matriks Pengujian Empiris: Throughput, Latensi, dan Resource",
-        "3. Skenario Nyata: Kapan Menggunakan Solusi A vs Solusi B",
-        "4. Pola Implementasi Transisi Tanpa Downtime",
+        "Gejala dan Dampak Finansial dari Masalah Ini",
+        "Akar Penyebab yang Sering Terabaikan",
+        "Checklist Diagnostik & Audit Langkah demi Langkah",
+        "Solusi Perbaikan Cepat vs Solusi Jangka Panjang",
+        "Prosedur Monitoring & Langkah Pencegahan Masalah Berulang",
       ],
-      calloutTheme: "Hukum Kompromi (Trade-Off Axiom)",
-      codeFocus: "Benchmark harness, adapter pattern, dual-write mitigation",
+      calloutTheme: "Diagnostik Cepat Inxora",
+      focusElement: "Checklist audit interaktif dan prioritas penanganan masalah",
     },
     promptInstruction:
-      "Tulis dengan format evaluasi teknis objektif (Benchmark Battle). Sajikan tabel perbandingan empiris menyeluruh, bedah skenario kapan memilih masing-masing pendekatan, dan berikan contoh kode adapter/transisi.",
+      "Tulis dengan gaya Pemecah Masalah & Checklist Diagnostik. Mulai langsung dengan dampak finansial atau friksi operasional nyata tanpa pembuka klise. Berikan checklist bernomor urut logis dan solusi perbaikan nyata yang dapat langsung dieksekusi. Hindari negative parallelism ('bukan hanya... melainkan...'), jargon tanpa penjelasan, dan repetisi transisi.",
   },
-  "production-blueprint": {
-    id: "production-blueprint",
-    name: "Hands-on Production Blueprint",
-    tagline: "Cetak Biru Implementasi Siap Produksi Tahan Banting",
+
+  "business-innovation-insight": {
+    id: "business-innovation-insight",
+    name: "Business & Technology Innovation Insight",
+    tagline: "Membedah Tren Teknologi Terkini & Peluang Keunggulan Kompetitif",
     narrativeAngle:
-      "Panduan praktis implementasi kode ujung-ke-ujung yang dirancang untuk lingkungan produksi dengan fokus utama pada idempotensi, retry backoff, dan observabilitas.",
+      "Menjelaskan bagaimana teknologi mutakhir (seperti AI otomasi, arsitektur headless modern, atau strategi UI/UX berbasis data) dapat dimanfaatkan untuk memenangkan persaingan pasar.",
     headingBlueprint: {
       h2Sections: [
-        "1. Prasyarat Arsitektural dan Pemodelan Kontrak",
-        "2. Implementasi Inti dengan Proteksi Edge Cases",
-        "3. Pola Idempotensi, Telemetry, dan Structured Logging",
-        "4. Verifikasi Ketahanan Beban dan Chaos Engineering",
+        "Perubahan Perilaku Pengguna & Dinamika Industri",
+        "Peluang Efisiensi Baru dari Pemanfaatan Teknologi Modern",
+        "Studi Skenario Implementasi Nyata pada Bisnis",
+        "Tantangan Adopsi & Mitigasi Risiko Eksekusi",
+        "Peta Jalan Adopsi & Pengukuran Dampak Bisnis",
       ],
-      calloutTheme: "Standar Produksi (Production Hardening)",
-      codeFocus: "Idempotent handler, distributed lock, telemetry tracing",
+      calloutTheme: "Wawasan Inovasi Bisnis",
+      focusElement: "Skenario use-case bisnis, timeline tahapan, dan proyeksi dampak",
     },
     promptInstruction:
-      "Tulis dengan format Production Blueprint siap pakai. Berikan implementasi kode lengkap dengan penanganan error kasus ekstrem, idempotensi, retry dengan jitter, dan observabilitas.",
+      "Tulis dengan gaya Wawasan Inovasi Bisnis (Innovation Insight). Sajikan perspektif pragmatis dan membumi. Jelaskan bagaimana teknologi modern menyelesaikan friksi bisnis nyata dengan angka terukur, bukan sekadar hype atau jargon visioner (hindari 'merevolusi', 'tapestry', 'game-changer'). Gunakan analogi operasional yang mudah dipahami pembaca non-teknis.",
   },
-  adr: {
-    id: "adr",
-    name: "Architectural Decision Record (ADR)",
-    tagline: "Rekam Jejak Keputusan Arsitektur: Alasan di Balik Pilihan Rekayasa",
+
+  "cost-and-roi-blueprint": {
+    id: "cost-and-roi-blueprint",
+    name: "Cost Optimization & ROI Blueprint",
+    tagline: "Perencanaan Anggaran, Optimasi Biaya, dan Pengukuran ROI Digital",
     narrativeAngle:
-      "Format formal keputusan tim engineering senior: latar belakang masalah bisnis, alternatif yang dievaluasi, alasan kuat mengapa opsi lain ditolak, dan konsekuensi jangka panjang.",
+      "Memberikan panduan transparan mengenai estimasi biaya, alokasi anggaran pengembangan, dan formula menghitung pengembalian investasi (ROI) dari proyek digital.",
     headingBlueprint: {
       h2Sections: [
-        "1. Konteks Bisnis dan Masalah Teknis yang Dihadapi",
-        "2. Alternatif yang Dievaluasi dan Alasan Penolakan",
-        "3. Keputusan Terpilih dan Rationale Rekayasa",
-        "4. Konsekuensi Positif, Negatif, dan Mitigasi Risiko",
+        "Realitas Biaya Pengembangan & Risiko Hidden Cost",
+        "Komponen Alokasi Anggaran yang Wajib Dihitung",
+        "Strategi Optimasi Biaya Tanpa Mengorbankan Kualitas",
+        "Formula & Tolok Ukur Pengembalian Investasi (ROI)",
+        "Kriteria Pemilihan Partner Eksekusi & Validasi Anggaran",
       ],
-      calloutTheme: "Keputusan Arsitektur (Decision Rationale)",
-      codeFocus: "Clean boundary interface, abstraction isolation",
+      calloutTheme: "Kalkulasi ROI & Biaya",
+      focusElement: "Tabel rincian alokasi biaya dan metrik evaluasi pengembalian investasi",
     },
     promptInstruction:
-      "Tulis dengan format Architectural Decision Record (ADR) profesional. Urai konteks masalah, bandingkan alternatif solusi yang dieliminasi, jelaskan mengapa solusi terpilih paling optimal, dan sertakan contoh kode boundary.",
+      "Tulis dengan gaya Cetak Biru Biaya & ROI. Fokus pada transparansi finansial, estimasi realistis, dan strategi alokasi anggaran cerdas. Hindari generalisasi klise, keseimbangan semu, atau bahasa berbunga-bunga; sajikan data dan formula kalkulasi yang dapat langsung diuji di spreadsheet pembaca.",
   },
 };
 
 export const INDUSTRIES: Record<IndustryId, IndustryContext> = {
-  fintech: {
-    id: "fintech",
-    name: "FinTech & Payment Gateway",
-    workloadDescription:
-      "Pemrosesan transaksi finansial dengan nol toleransi inkonsistensi saldo (zero double-spending), audit trail immutability, dan kepatuhan PCI-DSS.",
-    typicalBottlenecks: [
-      "Deadlock pada update balance concurrent",
-      "Duplikasi callback payment gateway",
-      "Latensi p99 pada validasi fraud score",
+  "sme-retail": {
+    id: "sme-retail",
+    name: "UKM & Retail Modern",
+    workloadDescription: "Platform e-commerce, katalog online, dan sistem kasir/order terintegrasi dengan trafik fluktuatif.",
+    commonChallenges: [
+      "Tingkat bounce rate tinggi di perangkat mobile",
+      "Keterbatasan integrasi pembayaran lokal dan logistik",
+      "Biaya pemeliharaan toko online yang mahal jika memakai plugin berlebihan",
     ],
-    complianceOrEdgeCase:
-      "Idempotency token wajib pada setiap mutasi ledger; transaksi harus ACID compliant.",
-    codeContextHint:
-      "Contoh kode harus mendemonstrasikan proteksi transaksi atomik atau penanganan idempotensi request transfer dana.",
+    keyBusinessGoals: "Meningkatkan konversi penjualan, mempercepat loading website, dan mempermudah manajemen stok.",
+    conversionContext: "Layanan Pembuatan Website & Aplikasi Toko Online dari Inxora Studio.",
   },
-  ecommerce: {
-    id: "ecommerce",
-    name: "High-Traffic Flash Sale E-Commerce",
-    workloadDescription:
-      "Lonjakan trafik 10x-50x secara instan pada event penjualan kilat, perebutan stok inventaris terbatas, dan lonjakan checkout concurrency.",
-    typicalBottlenecks: [
-      "Overselling akibat race condition pada stok inventaris",
-      "Database connection exhaustion saat banner promo tayang",
-      "Cache stampede pada katalog produk populer",
+  "b2b-saas": {
+    id: "b2b-saas",
+    name: "B2B SaaS & Startup Digital",
+    workloadDescription: "Aplikasi berbasis web dengan dashboard interaktif, sistem langganan (subscription), dan API multi-tenant.",
+    commonChallenges: [
+      "Onboarding pengguna baru yang rumit dan menyebabkan churn",
+      "Performa dashboard lambat saat mengolah data pelanggan dalam jumlah besar",
+      "Kebutuhan time-to-market cepat untuk menguji product-market fit",
     ],
-    complianceOrEdgeCase:
-      "Multi-tier cache (memory + Redis) dengan probabilistic early expiration; decrement stok via Redis atomic script sebelum persist ke database.",
-    codeContextHint:
-      "Contoh kode harus mendemonstrasikan penanganan stok atomik atau proteksi cache stampede.",
+    keyBusinessGoals: "Mempercepat akuisisi pengguna, memperpanjang LTV (Lifetime Value), dan menyederhanakan alur kerja pengguna.",
+    conversionContext: "Layanan Pengembangan Aplikasi Web Kustom & Konsultasi Arsitektur SaaS Inxora.",
   },
-  saas: {
-    id: "saas",
-    name: "Multi-Tenant Enterprise SaaS & AI Pipeline",
-    workloadDescription:
-      "Arsitektur multi-tenant dengan isolasi data antar organisasi, integrasi LLM streaming, dan mitigasi rate-limit provider eksternal.",
-    typicalBottlenecks: [
-      "Noisy neighbor problem (satu tenant menghabiskan resource pool)",
-      "Timeout pada LLM token streaming pipeline",
-      "Kebocoran konteks antar tenant di lapisan caching",
+  "corporate-services": {
+    id: "corporate-services",
+    name: "Layanan Perusahaan & Profesional",
+    workloadDescription: "Website profil korporat, portal klien, dan landing page akuisisi prospek (lead generation) bernilai tinggi.",
+    commonChallenges: [
+      "Tampilan website terkesan usang dan kurang mencerminkan kredibilitas institusi",
+      "Rendahnya konversi dari pengunjung menjadi prospek bisnis valid",
+      "Ketiadaan sistem manajemen konten (CMS) yang aman dan fleksibel untuk tim internal",
     ],
-    complianceOrEdgeCase:
-      "Tenant schema isolation / Row-Level Security (RLS) serta client-side backpressure pada streaming response.",
-    codeContextHint:
-      "Contoh kode harus mendemonstrasikan tenant contextual isolation atau stream consumer dengan rate limiter.",
+    keyBusinessGoals: "Membangun otoritas brand digital, meningkatkan lead conversion, dan memastikan keamanan data institusi.",
+    conversionContext: "Layanan Desain UI/UX & Redesign Website Korporat Inxora Studio.",
   },
-  "iot-logistics": {
-    id: "iot-logistics",
-    name: "Real-time Logistics & IoT Telemetry",
-    workloadDescription:
-      "Penerimaan stream jutaan sinyal lokasi dan sensor kendaraan per detik, partisi time-series, dan pemrosesan geofencing real-time.",
-    typicalBottlenecks: [
-      "Write amplification pada database relational",
-      "Out-of-order event delivery pada jaringan seluler tidak stabil",
-      "Consumer lag pada streaming queue",
+  "health-wellness": {
+    id: "health-wellness",
+    name: "Kesehatan, Medis & Wellness",
+    workloadDescription: "Portal reservasi janji temu medis, telemedicine, dan aplikasi pemantauan kesehatan yang membutuhkan kepercayaan tinggi.",
+    commonChallenges: [
+      "Navigasi aplikasi membingungkan bagi pengguna awam dan lansia",
+      "Kepatuhan privasi data dan perlindungan informasi medis pasien",
+      "Sistem penjadwalan yang sering bentrok atau lambat merespons",
     ],
-    complianceOrEdgeCase:
-      "Batch ingestion dengan dead-letter queue; time-bucketed compaction untuk data historis.",
-    codeContextHint:
-      "Contoh kode harus mendemonstrasikan batch processor atau dedup window untuk event time-series.",
+    keyBusinessGoals: "Menghadirkan pengalaman pengguna yang empati, responsif, dan menjamin privasi data secara menyeluruh.",
+    conversionContext: "Layanan Pengembangan Aplikasi Mobile & Sistem Reservasi Kesehatan Inxora.",
   },
-  healthtech: {
-    id: "healthtech",
-    name: "HealthTech & Telemedicine Platform",
-    workloadDescription:
-      "Platform rekam medis elektronik terdistribusi, enkripsi end-to-end data pasien, dan streaming konsultasi real-time.",
-    typicalBottlenecks: [
-      "Beban enkripsi field-level pada query agregasi data medis",
-      "Ketersediaan tinggi (99.99%) untuk sistem triase darurat",
-      "Audit trail immutable untuk akses data sensitif",
+  "education-edutech": {
+    id: "education-edutech",
+    name: "Pendidikan & Edutech",
+    workloadDescription: "Learning Management System (LMS), platform kursus online, dan portal pendaftaran peserta didik.",
+    commonChallenges: [
+      "Lonjakan trafik mendadak pada periode ujian atau pendaftaran siswa baru",
+      "Tingkat penyelesaian materi kursus rendah akibat antarmuka yang membosankan",
+      "Kendala pemutaran video streaming pada jaringan internet dengan bandwidth terbatas",
     ],
-    complianceOrEdgeCase:
-      "Kepatuhan regulasi privasi data kesehatan; tokenisasi data identitas personal (PII) sebelum disimpan.",
-    codeContextHint:
-      "Contoh kode harus mendemonstrasikan audit logger immutable atau field-level encryption middleware.",
+    keyBusinessGoals: "Meningkatkan engagement pembelajaran, memastikan website tetap stabil saat ujian serentak, dan kemudahan akses mobile.",
+    conversionContext: "Layanan Pengembangan Platform Edukasi & LMS Skalabel Inxora Studio.",
   },
 };
 
@@ -221,4 +215,3 @@ export function getRandomIndustry(): IndustryContext {
   const randomKey = keys[Math.floor(Math.random() * keys.length)];
   return INDUSTRIES[randomKey];
 }
-
