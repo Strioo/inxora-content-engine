@@ -2,15 +2,24 @@
   "name": "inxora-content-engine",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "Autonomous AI content engine with anti-slop rules, visual generation, and SEO distribution for Inxora Studio",
   "main": "src/cli.ts",
   "scripts": {
     "generate": "tsx src/cli.ts",
+    "discover": "tsx src/cli.ts --discover",
+    "from-backlog": "tsx src/cli.ts --from-backlog",
+    "daemon": "tsx src/daemon.ts",
+    "daemon:once": "tsx src/daemon.ts --once",
+    "audit:decay": "tsx src/services/decay-detector.ts",
+    "list:models": "tsx src/list-models.ts",
     "test:ai": "tsx src/test-ai-client.ts",
+    "test:models": "tsx src/test-models.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
+    "jsonrepair": "^3.15.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {

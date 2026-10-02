@@ -17,8 +17,19 @@ build/
 data/
 
 # OS / Editor
+.history/
 .DS_Store
 .idea/
 .vscode/
 Thumbs.db
 
+
+# Frontier Kit (agent workspace)
+.agents/.state/
+.scratch/
+scratch/
+
+/test-results/
+/playwright-report/
+/blob-report/
+/coverage/
